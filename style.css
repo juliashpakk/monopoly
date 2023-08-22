@@ -1,0 +1,17 @@
+body{
+    background-color: beige;
+  }
+  .a1{
+    text-align: center;
+  }
+  .button {
+    background-color: #2b149c;
+   
+    color: white;
+    padding: 16px 32px;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 16px;
+  }
+  

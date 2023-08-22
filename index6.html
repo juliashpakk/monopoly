@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+</head>
+<style>
+    body{
+        background-color: #e1e1e1;
+}
+#card {
+  cursor: pointer;
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  background-color: #2b149c;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+#field-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 48px;
+}
+
+#player-cards {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 200px;
+  font-size: 24px;
+  margin-top: 30px;
+}
+    .wrapper {
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  display: flex;
+  align-items: center;
+}
+
+#status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  min-width: 400px;
+  margin: 0;
+}
+
+.dice {
+  width: 32px;
+  float: left;
+  background-color: rgb(255, 255, 255);
+  border: 3px solid black;
+  padding: 10px;
+  font-size: 24px;
+  text-align: center;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.dice-roll {
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.a1{
+    text-align: center;
+    margin-left: 30px;
+}
+.a3{
+    font-size: 18px;
+    width: 20%;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+   
+  }
+  .a4{
+    background-color: beige;
+  }
+  .a5{
+    background-color: rgb(255, 228, 228);
+  }
+</style>
+<body>
+    <a href = "index5.html"><img src="photo/img_340069.png" width="2%" align="right" class="a2"></a>
+    <p class="a1"><button  class="button">Пропустить ход</button><button  class="button">Выйти из игры</button></p>
+    <div class="a3 a4"> 00:16:45 </div>
+    <div class="a3 a5"> 6510$</div>
+<div id="field-cards"> <img src="photo/1_red.png" id="card"></div>
+  <p style="text-align: center;"><img src="photo/карта.jpg" width="40%"></p>
+ <div id="field-cards"> <img src="photo/1_blackred.png" ><img src="photo/2_blue.png" ><img src="photo/1_orange.png" ></div>
+ <div class="wrapper">
+  <div class="column">
+      <div id="dice-side-1" class="dice">0</div>
+      <div id="dice-side-2" class="dice">0</div>
+  </div>
+  <div class="column">
+      <button type="button" class="dice-roll button">roll dice</button>
+      <h2 id="status"></h2>
+  </div>
+</div>
+  <script>
+    let currentDroppable = null;
+    
+    const ranks = ["1_", "2_"];
+    const suits = ["blackred", "blue", "green", "orange", "pink", "red", "yellow"];
+
+    card.onmousedown = function(event) {
+
+      let shiftX = event.clientX - card.getBoundingClientRect().left;
+      let shiftY = event.clientY - card.getBoundingClientRect().top;
+
+      card.style.position = 'absolute';
+      card.style.zIndex = 1000;
+      document.body.append(card);
+
+      moveAt(event.pageX, event.pageY);
+
+      function moveAt(pageX, pageY) {
+        card.style.left = pageX - shiftX + 'px';
+        card.style.top = pageY - shiftY + 'px';
+      }
+
+      function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+
+        card.hidden = true;
+        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+        card.hidden = false;
+
+        if (!elemBelow) return;
+
+        let droppableBelow = elemBelow.closest('.droppable');
+        if (currentDroppable != droppableBelow) {
+          if (currentDroppable) { // null если мы были не над droppable до этого события
+            // (например, над пустым пространством)
+            leaveDroppable(currentDroppable);
+          }
+          currentDroppable = droppableBelow;
+          if (currentDroppable) { // null если мы не над droppable сейчас, во время этого события
+            // (например, только что покинули droppable)
+            enterDroppable(currentDroppable);
+          }
+        }
+      }
+
+      document.addEventListener('mousemove', onMouseMove);
+
+      card.onmouseup = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        card.onmouseup = null;
+      };
+
+    };
+
+    card.ondragstart = function() {
+      return false;
+    };
+
+
+
+    window.addEventListener('DOMContentLoaded', function () {
+
+function rollDice () {
+
+    var diceSide1 = document.getElementById('dice-side-1');
+    var diceSide2 = document.getElementById('dice-side-2');
+    var status = document.getElementById('status');
+
+    var side1 = Math.floor( Math.random() * 6 ) + 1;
+    var side2 = Math.floor( Math.random() * 6 ) + 1;
+    var diceTotal = side1 + side2;
+
+    diceSide1.innerHTML = side1;
+    diceSide2.innerHTML = side2;
+
+}
+
+var buttonRollDice = document.querySelector('.dice-roll');
+buttonRollDice.addEventListener('click', rollDice, false);
+buttonRollDice.addEventListener('Enter', rollDice, false);
+
+}, false);
+
+buttonRollDice.addEventListener('keydown', function(event) {
+   if (event.code === 'Enter') { // горячая клавиша для редактирования
+    var buttonRollDice1 = document.querySelector('.dice-roll');
+    buttonRollDice1.addEventListener('click', rollDice, false);
+  }
+});
+
+document.addEventListener('keydown', function(event) {
+  if ( event.code === 'Delete') { // горячая клавиша для удаления
+    var checkedItem = document.querySelector('li.checked');
+    if (checkedItem) {
+      checkedItem.remove();
+    }
+  }
+});
+  </script>
+
+
+</body>
+</html>
